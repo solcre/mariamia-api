@@ -158,13 +158,22 @@ INSERT INTO `products` (`id`, `name`, `type`, `thc`, `cbd`, `description`, `imag
 -- Table structure for table `sections`
 --
 
+
 CREATE TABLE `sections` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `content` varchar(255) NOT NULL,
+  `content` text NOT NULL,
   `useful_yes` int(11) NOT NULL,
   `useful_no` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sections`
+--
+
+INSERT INTO `sections` (`id`, `title`, `content`, `useful_yes`, `useful_no`) VALUES
+(15, 'Section 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut id ex eros. Vivamus lorem diam, pellentesque ut varius sit amet, mattis ut lorem. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque neque lectus, ultrices et mauris in, consectetur hendrerit tellus. Suspendisse pellentesque egestas mollis. Curabitur mollis aliquam scelerisque. Sed quis mauris sollicitudin, efficitur leo ut, laoreet diam. Donec vulputate congue libero eget tempus. Sed tincidunt diam non libero luctus lobortis. Cras tincidunt semper dui quis lacinia. Nulla semper purus in purus pulvinar, eget lobortis ligula fringilla. Nullam accumsan a felis ac hendrerit. Maecenas non arcu diam. Aliquam erat volutpat.\r\n\r\nCurabitur tincidunt consequat est, at tristique purus fermentum a. In hac habitasse platea dictumst. Proin eget mi fringilla, tristique ex sed, vulputate ipsum. Praesent risus nibh, placerat eget dapibus viverra, condimentum sit amet nibh. Vestibulum scelerisque magna nec lectus venenatis feugiat. Phasellus bibendum blandit felis, elementum rhoncus sem. Donec molestie consectetur mauris, nec dictum massa. Phasellus lacinia dui et felis rutrum suscipit. Aenean sodales tellus non libero fringilla rhoncus. Suspendisse in lorem pretium, suscipit nulla et, dictum tellus.', 3, 7),
+(16, 'Section 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut id ex eros. Vivamus lorem diam, pellentesque ut varius sit amet, mattis ut lorem. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque neque lectus, ultrices et mauris in, consectetur hendrerit tellus. Suspendisse pellentesque egestas mollis. Curabitur mollis aliquam scelerisque. Sed quis mauris sollicitudin, efficitur leo ut, laoreet diam. Donec vulputate congue libero eget tempus. Sed tincidunt diam non libero luctus lobortis. Cras tincidunt semper dui quis lacinia. Nulla semper purus in purus pulvinar, eget lobortis ligula fringilla. Nullam accumsan a felis ac hendrerit. Maecenas non arcu diam. Aliquam erat volutpat.\r\n\r\nCurabitur tincidunt consequat est, at tristique purus fermentum a. In hac habitasse platea dictumst. Proin eget mi fringilla, tristique ex sed, vulputate ipsum. Praesent risus nibh, placerat eget dapibus viverra, condimentum sit amet nibh. Vestibulum scelerisque magna nec lectus venenatis feugiat. Phasellus bibendum blandit felis, elementum rhoncus sem. Donec molestie consectetur mauris, nec dictum massa. Phasellus lacinia dui et felis rutrum suscipit. Aenean sodales tellus non libero fringilla rhoncus. Suspendisse in lorem pretium, suscipit nulla et, dictum tellus.', 1, 3);
 
 -- --------------------------------------------------------
 

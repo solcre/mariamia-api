@@ -20,8 +20,9 @@
 								"type": "text/javascript",
 								"exec": [
 									"tests[\"Status code is 200\"] = responseCode.code === 200;",
-									"var product = JSON.parse(responseBody);",
-									"tests[\"have products\"] = product._embedded.products.length > 0;"
+									"var response = JSON.parse(responseBody);",
+									"tests[\"have products\"] = response._embedded.products.length > 0;",
+									"postman.setEnvironmentVariable(\"product\", response._embedded.products[0].id);"
 								]
 							}
 						}
@@ -30,10 +31,29 @@
 						"url": "{{url_api}}/products",
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch one product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url_api}}/products/{{product}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
 						"description": ""
 					},
 					"response": []
@@ -106,7 +126,10 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var response = JSON.parse(responseBody);",
+									"tests[\"have shops\"] = response._embedded.shops.length > 0;",
+									"postman.setEnvironmentVariable(\"shop_1\", response._embedded.shops[0].id);"
 								]
 							}
 						}
