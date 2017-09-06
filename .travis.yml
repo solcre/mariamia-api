@@ -1,0 +1,64 @@
+sudo: required
+dist: trusty
+services:
+- mysql
+language: php
+php:
+- '5.6'
+env:
+  global:
+  - SOURCE_DIR=src
+  - VHOST_FILE=.mariamia.vhost
+  - VHOST_CONF=mariamia.conf
+  - VHOST_URL=mariamia.dev
+  - DATABASE_NAME=mariamia_db
+  - SQL_FILE=mariamia_db.sql
+  - DATABASE_USER=dbuser
+  - DATABASE_PASSWORD=123
+  - PATH_IMAGE=/public/uploads/images
+install:
+- travis_retry composer install --no-interaction
+- npm install newman
+- sudo apt-get install apache2 libapache2-mod-fastcgi > /dev/null
+before_script:
+- chmod 775 $HOME
+- sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv
+  version-name)/etc/php-fpm.conf
+- sudo a2enmod rewrite actions fastcgi alias
+- echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+- "~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm"
+- phpenv config-rm xdebug.ini
+- sudo cp -f $VHOST_FILE /etc/apache2/sites-available/$VHOST_CONF
+- sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/$VHOST_CONF
+- sudo sed -e "s?%VHOST_URL%?$VHOST_URL?g" --in-place /etc/apache2/sites-available/$VHOST_CONF
+- sudo cat /etc/apache2/sites-available/$VHOST_CONF
+- echo "127.0.0.1       $VHOST_URL" | sudo tee -a /etc/hosts
+- sudo a2enmod rewrite
+- sudo a2ensite $VHOST_CONF
+- sudo service apache2 restart
+- nslookup $VHOST_URL
+- sudo apache2ctl configtest
+- sudo apache2 -v
+- node --version
+- npm --version
+- node_modules/.bin/newman --version
+- mysql -e "create database $DATABASE_NAME"
+- mysql -e "use $DATABASE_NAME"
+- mysql -u root $DATABASE_NAME < tests/$SQL_FILE
+- mysql -u root -e "CREATE USER '$DATABASE_USER'@'localhost' IDENTIFIED BY '$DATABASE_PASSWORD';"
+- mysql -u root -e "GRANT ALL ON $DATABASE_NAME.* TO '$DATABASE_USER'@'localhost';"
+- mkdir -p $TRAVIS_BUILD_DIR$PATH_IMAGE
+- chmod 777 $TRAVIS_BUILD_DIR$PATH_IMAGE
+script:
+- node_modules/.bin/newman run tests/Mariamia.postman_collection.json -e tests/Mariamia.postman_environment.json
+after_script:
+- wget https://scrutinizer-ci.com/ocular.phar
+- php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+- sudo cat /var/log/apache2/$VHOST_URL.error.log
+
+notifications:
+  slack:
+    rooms:
+        - secure: 3RBYUasDjRA0BcNg8zW2Un8zaUuJaiOoaSemEg87f5SM5YtpWIEsKcFdUMz3KSxXPsRACHhitQvbGlnIWCAW4D+xmc9Ao1Fwesk5IDlbI07DeT52+ZXe5rba8QoUV2VR96SaCmxc8ehK4AhI11o2vPY5WpyDsj6tUt0UMIhC5jNQYREoOrh3qSC/MuoGCFo0ETibVbf3b2ywvpzXA/bVh5qT7n6M5PVk6ClBINploT7NUx060XEaJNZPxhWqIyoL1++dHyH99GAvrvTAXHv9mClub8l0xRNujy/tGwuzRvb0jUgTw6c8THbf+WOcqaMZP3XAF0sS/IZRe9zRYZz+xhTuEj2xVwCD7lHxW0ABA6Cv2GFQRRPBjSeYskbwg60k/xm0cyF1SWsM0DjoQCc5xNiFpJImQ5ccNb6007kw+0RrupLtX0ERre3Gd7JxRsFPEOriLty0v/4wxD4B3hyZH1kpE2zk/F5G8X1rd0Nv8unnt6xmUS0jQa4ksi0t+06bcNjJnm7s8jfQjUenReCRkgUFqlPcC5+SBOJIhsSgYirNOgRiJZ1JOrDTqHGaZZUPhmY+AwF6vDmu+RVLZslII7/sLVKGOA7KxO+6Z9IbXx8iKZPmmeV159F3bUGVldvVPRwSW/5ep4SY6Nipn69wf8gtATfn3OCNIkc23/KBReg=
+    on_success: always
+    on_failure: always 

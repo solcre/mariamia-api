@@ -1,0 +1,24 @@
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+return array(
+    'zf-oauth2' => array(
+    'storage'          => 'ZF\OAuth2\Adapter\PdoAdapter',
+    'db'               => array(
+        'dsn'      => 'mysql:dbname=mariamia_db;host=localhost',
+        'route'    => '/oauth',
+        'username' => '',
+        'password' => '',
+    ),
+    'storage_settings' => array(
+        'user_table' => 'shops',
+    ),
+    'allow_implicit'   => true,
+    'access_lifetime'  => 14400
+    )
+);
