@@ -29,7 +29,7 @@ class ProductsResource extends BaseResource
      */
     public function fetchAll($params = array())
     {
-        $products = $this->service->fetchAllPaginated($params, $orderBy);
+        $products = $this->service->fetchAllPaginated($params, []);
         $adapter = new PaginatedAdapter($products);
         return new ProductsCollection($adapter);
     }

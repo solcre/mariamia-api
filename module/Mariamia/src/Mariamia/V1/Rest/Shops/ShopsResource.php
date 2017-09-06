@@ -18,7 +18,7 @@ class ShopsResource extends BaseResource
      */
     public function fetchAll($params = array())
     {
-        $shops = $this->service->fetchAllPaginated($params, $orderBy);
+        $shops = $this->service->fetchAllPaginated($params, []);
         $adapter = new PaginatedAdapter($shops);
         return new ShopsCollection($adapter);
     }
