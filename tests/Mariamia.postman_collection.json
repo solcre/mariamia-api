@@ -46,6 +46,20 @@
 			"item": [
 				{
 					"name": "Get Sections",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var response = JSON.parse(responseBody);",
+									"tests[\"have sections\"] = response._embedded.sections.length > 0;",
+									"postman.setEnvironmentVariable(\"section\", response._embedded.sections[0].id);"
+								]
+							}
+						}
+					],
 					"request": {
 						"url": "{{url_api}}/sections",
 						"method": "GET",
