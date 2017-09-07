@@ -31,13 +31,21 @@
             "Solcre\\Mariamia\\": "./vendor/solcre/mariamia/src"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/solcre/solcre-framework"
+        }
+    ],
     "require": {
         "php": ">=5.5",
         "zendframework/zendframework": "~2.4",
         "zfcampus/zf-apigility": "~1.1",
         "zfcampus/zf-apigility-documentation": "^1.0.5",
         "zfcampus/zf-development-mode": "~2.0",
-        "doctrine/doctrine-orm-module": "0.9.2"
+        "doctrine/doctrine-orm-module": "0.9.2",
+        "solcre/solcre-framework": "dev-master",
+        "rwoverdijk/assetmanager": "^1.7"
     },
     "require-dev": {
         "zendframework/zftool": "dev-master",
