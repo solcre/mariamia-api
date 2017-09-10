@@ -8,6 +8,7 @@ nbproject
 .settings
 /vendor/*
 !vendor/solcre/
+vendor/solcre/solcre-framework
 public/vendor/
 public/admin/
 config/development.config.php
