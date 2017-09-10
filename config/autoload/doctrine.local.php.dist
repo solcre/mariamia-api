@@ -1,0 +1,29 @@
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+return array(
+    'doctrine' => [
+        'connection' => [
+            // default connection name
+            'orm_default' => [
+                'driverClass' => \Doctrine\DBAL\Driver\PDOMySql\Driver::class,
+                'params' => [
+                    'host' => 'localhost',
+                    'port' => '3306',
+                    'user' => '',
+                    'password' => '',
+                    'dbname' => '',
+                    'charset' => 'utf8',
+                    'driverOptions' => array(
+                        1002 => 'SET NAMES utf8',
+                    ),
+                ],
+            ],
+        ],
+    ]
+);
